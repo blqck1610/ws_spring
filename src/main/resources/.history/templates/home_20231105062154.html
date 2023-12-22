@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<meta charset="UTF-8">
+	<title>PL Store</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
+	<link rel="stylesheet" th:href="@{/css/themify-icons/themify-icons.css}">
+
+</head>
+
+<body>
+
+	<div id="wrapper">
+		<!-- header -->
+		<header>
+			<header id="header" class="row">
+				<div class="logo col">
+					<a href="home"> <img th:src="@{~/images/logo/logostore.png" alt="" class="logo-store ml-60">
+					</a>
+				</div>
+				<div class="nav col col1 mlr-24">
+					<div class="row mobile-nowrap">
+						<form id="searchForm" th:action="@{~/product/search}" method="post">
+							<div class="search-header">
+								<input name="searchText" type="text" class="header-input-search input"
+									placeholder="tìm kiếm sản phẩm"><a href="#"
+									onclick="document.getElementById('searchForm').submit();"><i
+										class="ti-search icon"></i></a>
+
+
+							</div>
+						</form>
+						<div class="user-header">
+							<div class="user-icon">
+								<i class="ti-user icon js-user-icon"></i> <i
+									class="ti-shopping-cart icon js-cart-icon"><sub><span
+											th:text="${(session.cart != null) ? session.cart.items.size : '0'}"></span>
+									</sub> </i>
+							</div>
+
+
+						</div>
+					</div>
+					<ul class="row  nav-header">
+						<li><a href="#" class="nav__link">Thương hiệu</a>
+							<ul class="row sub-nav">
+								<li class="col flex-start"><a href="">Các hãng bán chạy</a>
+									<ul class="col flex-start">
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Daniel Walington(DW)</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Seiko</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Rolex</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Orient</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Timex</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Casio</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Citizen</span></a></li>
+
+									</ul>
+								</li>
+								<li class="col flex-start"><a href="">Khuyên dùng</a>
+									<ul class="col flex-start">
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Rolex</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													G-shock</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Seiko</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Rolex</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													KOI</span></a></li>
+
+
+									</ul>
+								</li>
+								<li class="col flex-start"><a href="">Các dòng đặc biệt</a>
+									<ul class="col flex-start">
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Limited Edition</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Đồng hồ quân đội</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Đồng hồ điện tử</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Đồng hồ đính kim cương</span></a></li>
+
+
+									</ul>
+								</li>
+								<li class="col flex-start"><a href="">Thụy Sỹ</a>
+									<ul class="col flex-start">
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Longisness</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Tossi</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Tissot</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Rado</span></a></li>
+										<li><a href=""><i class="ti-angle-right"></i><span>
+													Movado</span></a></li>
+
+
+									</ul>
+								</li>
+
+							</ul>
+						</li>
+						<li><a href="#" class="nav__link">Nam</a>
+						<li><a href="#" class="nav__link">Nữ</a>
+						<li><a href="#" class="nav__link">Cặp đôi</a>
+						<li><a href="#" class="nav__link">Trang sức</a>
+						<li><a href="#" class="nav__link">Dịch Vụ</a>
+						<li><a href="contact.jsp" class="nav__link">Liên hệ</a>
+					</ul>
+				</div>
+			</header>
+
+			<!-- modal user -->
+			<div class="overlay js-overlay hide-modal">
+				<div class="slide-out js-slide-out">
+					<div class="slide-out__header row">
+						<a class="slide-out__close js-btn-slide-out-close">Đóng</a>
+						<div class="row">
+							<button id="js-account-tab-link" class=" js-tab-links col1"
+								onclick="showModalTab(event, 'account-tab')">Tài khoản</button>
+							<button id="js-cart-tab-link" class="js-cart-tab-link js-tab-links col1"
+								onclick="showModalTab(event, 'cart-tab')">Giỏ hàng</button>
+						</div>
+					</div>
+					<div class="hr"></div>
+					<div id="account-tab" class=" js-tab-contents ">
+						<!-- form login -->
+						<form class="form js-form-account col js-login-form hide-modal" th:action="login" method="post">
+							<div class="form-title">
+								<lable>Đăng nhập</lab>
+							</div>
+
+							<div class="main-content">
+								<label for="login-input-username">Tên tài khoản</label> <input required type="text"
+									id="login-input-username" placeholder="Nhập username "  name="username"> <label
+									for="login-input-password">Mật khẩu</label> <input required type="password"
+									id="login-input-password" placeholder="nhập mật Khẩu" name=password> <input
+									type="checkbox" class="checkbox" name="remember-me"> <span>ghi nhớ</span>
+
+
+								<div class="row">
+									<input class="submit-form" type="submit" value="Đăng nhập">
+								</div>
+								<div class="row">
+									<a href="" class="forgot-password">Quên mật khẩu?</a>
+									<a href="#" class="sign-in js-sign-in-request">Chưa có tài khoản?</a>
+								</div>
+							</div>
+							<div class="hr"></div>
+
+						</form>
+						<!-- form sign in -->
+						<form class="form js-form-account col js-sign-in-form hide-modal" action="">
+							<div class="form-title">
+								<label>Đăng Ký</label>
+							</div>
+
+							<div class="main-content">
+								<label for="sign-in-input-username">Tên tài khoản</label>
+								<input type="text" id="sign-in-input-username" class="nor-input"
+									placeholder="Nhập username ">
+
+								<label for="sign-in-input-email">Email</label>
+								<input type="email" id="sign-in-input-email" class="nor-input"
+									placeholder="nhập địa chỉ email">
+
+								<label for="sign-in-input-password">Mật khẩu</label>
+								<input type="password" id="sign-in-input-password" class="nor-input"
+									placeholder="nhập mật khẩu">
+
+								<label for="sign-in-input-re-password">nhập lại mật khẩu</label>
+								<input type="password" id="sign-in-input-re-password" class="nor-input"
+									placeholder="nhập lại mật khẩu">
+
+								<div class="row">
+									<input class="submit-form" type="submit" value="Đăng Ký">
+								</div>
+
+							</div>
+							<div class="hr"></div>
+							<a href="" class="js-login-request">Quay về đăng nhập</a>
+
+						</form>
+						<!-- form user  -->
+						<form class="form js-form-account col js-user-form " action="">
+							<div class="main-content">
+								<h3>Welcome ${session.user.username}!</h3>
+								<h4>Đơn hàng của bạn</h4>
+								<a href="orderDetails" class="row button"> <span><i class="ti-time icon"></i> Xem tất cả
+										đơn hàng</span> <i class="ti-arrow-right icon"></i>
+								</a>
+								<h4>Thanh toán</h4>
+								<a href="" class="row button"> <span><i class="ti-time icon"></i> Quản lý thẻ</span> <i
+										class="ti-arrow-right icon"></i>
+								</a>
+
+								<h4>Voucher</h4>
+								<a href="" class="row button"> <span><i class="ti-time icon"></i> Voucher của bạn</span>
+									<i class="ti-arrow-right icon"></i>
+								</a>
+
+								<h4>Cài đặt</h4>
+								<a href="" class="row button"> <span><i class="ti-time icon"></i> Cài đặt tài
+										khoản</span> <i class="ti-arrow-right icon"></i>
+								</a>
+
+							</div>
+							<div class="hr"></div>
+
+							<a href="logout" class="logout-button">Log out</a>
+						</form>
+					</div>
+					<!-- cart -->
+
+
+					<div id="cart-tab" class=" js-tab-contents ">
+
+						<form class="form col js-cart-form " action="checkout">
+							<div class="form-title">
+								<p>Giỏ hàng(<span
+										th:text="${(session.cart != null) ? session.cart.items.size : '0'}"></span>)</p>
+							</div>
+							<div class="hr"></div>
+
+
+							<div class="main-content" th:if="${!session.cart.items.empty && session.cart != null}">
+								<div class="cart-items col1">
+
+
+
+									<div th:each="item : ${session.cart.items}" class="cart-item">
+										<!-- img & label -->
+										<div class="row">
+											<div class="col">
+												<img th:src="@{'~/images/product/' + ${item.product.img} + '/' + ${item.product.img} + '_1.jpg'}"
+													alt="">
+											</div>
+											<div class="col1">
+												<p class="brand-label" th:text="${item.product.brand.name}"></p>
+												<p class="item-name" th:text="${item.product.name}"></p>
+											</div>
+										</div>
+										<!-- price and quatity -->
+										<div class="row no-wrap">
+											<div class="col">
+
+												<div class="row no-wrap"
+													th:if="${item.product.sales != null && item.product.sales.salesvalue > 0}">
+													<span class="col new-price"
+														th:text="${'$' + item.product.priceAfterSales}"></span>
+													<span class="col old-price"
+														th:text="${'$' + item.product.price }"></span>
+												</div>
+
+												<span class="col new-price"
+													th:if="${item.product.sales == null || item.product.sales.salesvalue == 0}"
+													th:text="${'$' + item.product.price}"></span>
+
+											</div>
+											<!-- quatity -->
+											<div class="col cart-quantity">
+												<div class="row ">
+													<a href="" class="sub-btn ">-</a> <input
+														style="width: 30% !important; margin: 0;" readonly type="number"
+														th:value="${item.quantity}"> <a href="" class="add-btn">+</a>
+												</div>
+											</div>
+										</div>
+										<div class="row ">
+											<span class="new-price col" th:text="'total: ' + ${item.price}"></span>
+											<div class="col">
+												<a href="" class="mt-8">xóa khỏi giỏ hàng</a>
+											</div>
+											<div class="hr"></div>
+										</div>
+
+									</div>
+									</c:forEach>
+
+									<div class="total-price col1">
+										<div class="row">
+											<label class="label">total price</label> <label for=""
+												th:text="'$' + ${cart.amount}">
+											</label>
+										</div>
+										<div class="row">
+											<label class="label">saving</label> <label for=""
+												th:text="'$' + ${cart.saving}">
+											</label>
+										</div>
+										<div class="row">
+											<label class="label">tax</label> <label for=""> 10% </label>
+										</div>
+										<div class="row">
+											<label class="label">Sub total</label> <label for=""
+												th:text="'$' + ${cart.amount + cart.amount * 10 / 100}">
+											</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row ">
+									<div class="hr"></div>
+									<input class="submit-form col1" type="submit" value="Thanh Toán">
+								</div>
+							</div>
+
+
+							<p th:if="${session.cart.items.empty || session.cart == null}">Your cart is empty</p>
+
+						</form>
+					</div>
+
+
+				</div>
+			</div>
+
+
+
+		</header>
+		<!-- main contents -->
+
+		<!-- banner -->
+		<div class="banner"></div>
+		<!-- contents -->
+		<div id="contents ">
+
+			<!-- bar -->
+			<div class="contents__bar row  pt-16">
+				<a class="contents__bar__item col" href="">
+					<div class="col">
+						<img src="./images/logo/mens_round_150.png" alt="" class="item__img"> <span
+							class="item__label">Đồng hồ
+							nam</span>
+					</div>
+				</a> <a class="contents__bar__item col" href="">
+					<div class="col">
+						<img src="./images/logo/ladies_round_150.png" alt="" class="item__img"> <span
+							class="item__label">Đồng hồ
+							nữ</span>
+					</div>
+				</a> <a class="contents__bar__item col" href="">
+					<div class="col">
+						<img src="./images/logo/sunglasses_round_150.png" alt="" class="item__img"> <span
+							class="item__label">Kính</span>
+					</div>
+				</a> <a class="contents__bar__item col" href="">
+					<div class="col">
+						<img src="./images/logo/jewelry_round_150.png" alt="" class="item__img"> <span
+							class="item__label">Trang
+							sức</span>
+					</div>
+				</a> <a class="contents__bar__item col" href="">
+					<div class="col">
+						<img src="./images/logo/sale_round_150.png" alt="" class="item__img"> <span
+							class="item__label">Đang
+							giảm giá</span>
+					</div>
+				</a> <a class="contents__bar__item col" href="">
+					<div class="col">
+						<img src="./images/logo/preowned_round_150.png" alt="" class="item__img"> <span
+							class="item__label">pre
+							order</span>
+					</div>
+				</a>
+			</div>
+			<div class="hr"></div>
+			<!-- brand -->
+			<div class="brand row pt-16 ">
+				<a href="" title="Rolex" class="col-1 nav__link">Rolex</a> <a href="" class="col-1 nav__link">Seiko</a>
+				<a href="" class="col-1 nav__link">Omega</a> <a href="" class="col-1 nav__link">Casio</a> <a href=""
+					class="col-1 nav__link">Citizen</a> <a href="" class="col-1 nav__link">Timex</a> <a href=""
+					class="col-1 nav__link">Bulova</a> <a href="" class="col-1 nav__link">G-shock</a> <a href=""
+					class="col-1 nav__link">Orient</a> <a href="" class="show-all-btn col-1 nav__link">Show all
+					brand</a>
+			</div>
+
+			<!-- trending -->
+			<div class="container row bg-blue mb-0">
+				<div class="container__title col">
+					<span class="container__label bg-blue">Trending Now </span> <a href="#" class="btn-show-all">Show
+						all</a>
+				</div>
+				<div class="container__items row">
+
+
+					<a th:each="product : ${popularWatch} "
+						th:href="@{${'/product/' + product.category.name + '/' + product.id }}" class="col item"> <img
+							th:src="@{${'./images/product/' + product.img + '/'+ product.img +'_1.jpg'}}" alt="">
+						<div class="item-name">
+							<span class="brand-label" th:text="${product.brand.name + ' '}"> </span><span
+								th:text="${product.name}"></span>
+							<br>
+
+							<span class="" th:if="${product.sales == null || product.sales.salesValue == 0}"><Strong
+									th:text="'$'+${product.price}"></strong> </span>
+
+
+							<span th:if="${product.sales != null  && !product.sales.salesValue > 0}">
+								<span class="new-price" th:text="'$' + ${product.price -
+									product.price*product.sales./100} ">$ (sale off:
+									${product.saleValue}%)
+								</span>
+								<span class="old-price" th:text="'$'+${product.price}"> </span>
+							</span>
+
+						</div>
+					</a>
+
+
+
+				</div>
+			</div>
+			<div class="hr"></div>
+			<!-- new -->
+			<div class="container row">
+				<div class="container__title col">
+					<span class="container__label">Sản phẩm mới </span> <a href="#" class="btn-show-all">Show all</a>
+				</div>
+				<div class="container__items row">
+
+
+					<a href="productDetails?idProduct=${product.idProduct }" class="col item"
+						th:each="product : ${popularWatch}"> <img
+							th:src="@{${'./images/product/' + product.img + '/'+ product.img +'_1.jpg'}}" alt="">
+						<div class="item-name">
+							<span class="brand-label">${product.brand } </span>${product.productName }
+							<br>
+							<!--<c:if test="${product.saleValue == 0 }">-->
+							<span class="" th:if="1>0"><Strong>b$${product.price }</strong> </span>
+							<!--	</c:if>-->
+							<!--<c:if test="${product.saleValue > 0 }">-->
+							<div th:if="1==0">
+								<span class="new-price">$${product.price -
+									product.price*product.saleValue/100} (sale off:
+									${product.saleValue}%) </span>
+								<span class="old-price">$${product.price } </span>
+							</div>
+
+							<!--</c:if>-->
+						</div>
+					</a>
+					<!--</c:forEach>-->
+				</div>
+			</div>
+			<div class="hr"></div>
+			<!-- nam -->
+			<div class="container row">
+				<div class="container__title col ">
+					<span class="container__label">Đồng Hồ Nam </span> <a href="MenWatches" class="btn-show-all">Show
+						all</a>
+				</div>
+				<div class="container__items row">
+					<a href="productDetails?idProduct=${product.idProduct }" class="col item"
+						th:each="product : ${menWatch}"> <img
+							th:src="@{${'./images/product/' + product.img + '/'+ product.img +'_1.jpg'}}" alt="">
+						<div class="item-name">
+							<span class="brand-label">${product.brand } </span>${product.productName }
+							<br>
+							<!--<c:if test="${product.saleValue == 0 }">-->
+							<span class="" th:if="1>0"><Strong>b$${product.price }</strong> </span>
+							<!--	</c:if>-->
+							<!--<c:if test="${product.saleValue > 0 }">-->
+							<div th:if="1==0">
+								<span class="new-price">$${product.price -
+									product.price*product.saleValue/100} (sale off:
+									${product.saleValue}%) </span>
+								<span class="old-price">$${product.price } </span>
+							</div>
+
+							<!--</c:if>-->
+						</div>
+					</a>
+
+
+				</div>
+			</div>
+			<div class="hr"></div>
+			<!-- nữ -->
+			<div class="container row">
+				<div class="container__title col">
+					<span class="container__label">Đồng Hồ Nữ </span> <a href="#" class="btn-show-all">Show all</a>
+				</div>
+				<div class="container__items row">
+
+
+					<a href="productDetails?idProduct=${product.idProduct }" class="col item"
+						th:each="product : ${femaleWatch}"> <img
+							th:src="@{${'./images/product/' + product.img + '/'+ product.img +'_1.jpg'}}" alt="">
+						<div class="item-name">
+							<span class="brand-label">${product.brand } </span>${product.productName }
+							<br>
+							<!--<c:if test="${product.saleValue == 0 }">-->
+							<span class="" th:if="1>0"><Strong>b$${product.price }</strong> </span>
+							<!--	</c:if>-->
+							<!--<c:if test="${product.saleValue > 0 }">-->
+							<div th:if="1==0">
+								<span class="new-price">$${product.price -
+									product.price*product.saleValue/100} (sale off:
+									${product.saleValue}%) </span>
+								<span class="old-price">$${product.price } </span>
+							</div>
+
+							<!--</c:if>-->
+						</div>
+					</a>
+
+
+				</div>
+			</div>
+			<div class="hr"></div>
+			<!-- trang sức -->
+			<div class="container row">
+				<div class="container__title col">
+					<span class="container__label">Trang Sức </span> <a href="#" class="btn-show-all">Show all</a>
+				</div>
+				<div class="container__items row">
+
+
+				</div>
+			</div>
+			<!-- customer -->
+			<div class="container row">
+				<div class="container__title col">
+					<span class="container__label">Khách hàng của chúng tôi </span>
+				</div>
+				<div class="customer row ">
+					<img th:src="@{~/images/logo/customer/Bosch_logo-1.jpg}" alt="">
+					<img th:src="@{~/images/logo/customer/EVN-1.jpg}" alt=""> 
+					<img th:src="@{~/images/logo/customer/LAVIE-1.jpg"}
+						alt=""> 
+					<img th:src="@{~/images/logo/customer/NESTLE-1.jpg}" alt=""> 
+					<img
+					th:src="@{~/images/logo/customer/NUMBER-1-1.jpg}" alt=""> 
+					<img
+					th:src="@{~/images/logo/customer/PETRO-1.jpg" alt=""> 
+					<img th:src="@{~/images/logo/customer/POCA-1.jpg"
+						alt=""> 
+					<img th:src="@{~/images/logo/customer/UNILEVER-1.jpg" alt="">
+				</div>
+				<div class="hr-inner"></div>
+
+			</div>
+			<!-- service -->
+			<div class="row service">
+				<div class="col service-item">
+					<h3 class="headline p-8">CAM KẾT</h3>
+					<h2 class="sub-headeline">HÀNG CHÍNH HÃNG</h2>
+					<a href="" class="btn-primary">tìm hiểu thêm</a>
+				</div>
+				<div class="col service-item">
+					<h3 class="headline">BẢO HÀNH</h3>
+					<h2 class="sub-headeline">VƯỢT CHÍNH SÁCH</h2>
+					<a href="" class="btn-primary">tìm hiểu thêm</a>
+				</div>
+				<div class="col service-item">
+					<h3 class="headline">1 ĐỔI 1</h3>
+					<h2 class="sub-headeline">NHANH CHÓNG VÀ DỄ DÀNG</h2>
+					<a href="" class="btn-primary">tìm hiểu thêm</a>
+				</div>
+			</div>
+			<!-- social page -->
+
+		</div>
+
+
+		<!-- footer -->
+		<div class="hr"></div>
+		<div class="container row social-page">
+			<div class="social-items">
+				<span class="">Social page </span> <a href="#"><i class="ti-facebook social-icon"></i></a> <a
+					href="#"><i class="ti-instagram social-icon"></i></a> <a href="#"><i
+						class="ti-youtube social-icon"></i></a> <a href="#"><i
+						class="ti-twitter-alt social-icon"></i></a>
+			</div>
+			<a href="tel:+123456789">hotline: 0123456789</a>
+
+		</div>
+		<footer id="footer" class="col">
+			<div class="container row">
+				<div class="col col-3">
+					HƯỚNG DẪN <a href="">Thông tin liên hệ</a> <a href="">Hỏi đáp -
+						góp ý</a> <a href="">Chính sách đổi hàng</a> <a href="">Chính sách
+						bảo hành</a> <a href="">Thanh toán và trả góp</a> <a href="">Liên
+						hệ đối tác doanh nghiệp</a> <a href="">Vận chuyển và giao nhận</a>
+				</div>
+				<div class="col col-3">
+					THAM KHẢO <a href="">Thông báo mới</a><a href="">Điều khoảng sử
+						dụng</a><a href="">Bảo mật thông tin</a><a href="">Tra cứu hồ sơ
+						bảo hành</a><a href=""><img src="./images/logo/footer/thong-bao-bo-cong-thuong.jpg" alt=""></a>
+				</div>
+
+				<div class="col col-3">
+					CHỨNG NHẬN <img src="./images/logo/footer/icon-dai-ly-chinh-thuc.jpg" alt="">
+					<img src="./images/logo/footer/icon-phong-bao-hanh.jpg" alt="">
+				</div>
+			</div>
+			<div class="hr"></div>
+			<div class="copyright row">
+
+				<div class="footer-bottom-link">
+					<a href="">Terms and Condition</a> <a href="">Pivaci Policy</a> <a href="">Careers</a>
+				</div>
+				<span class="">© 2002-2023 PLStore. ALL RIGHTS RESERVED</span>
+
+			</div>
+		</footer>
+		<div class="space"></div>
+
+	</div>
+
+	<script type="text/javascript" th:src="@{~/scripts/scripts.js}"></script>
+	<script type="text/javascript" th:src="@{~/scripts/header.js}"></script>
+
+	<script th:if="${userError != null}" type="text/javascript">
+
+		// show error login
+		//	showError();
+	</script>
+
+
+	<script th:if="${user == null}" type="text/javascript">
+		showLoginForm();
+	</script>
+
+
+</body>
+
+
+
+</html>

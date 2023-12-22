@@ -1,0 +1,38 @@
+@charset "ISO-8859-1";
+* {
+    box-sizing: border-box
+}
+
+label {
+    display: block;
+    padding: 12px 0 8px;
+}
+
+form {
+    width: 40%;
+    margin: auto;
+}
+
+.nor-input,
+#input-gender,
+#input-habit {
+    width: 100%;
+    border: 2px solid #757575;
+    padding: 4px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 4px #ccc;
+}
+
+.invalid-input {
+    border: 2px solid rgb(255, 156, 16);
+  }
+  .error-message{ background-color: red;
+    color: aliceblue;
+   /* padding: 4px;*/
+    margin: 4px 0 8px;
+}
+.btn{
+	padding: 12px;
+	margin-bottom: 32px;
+	font-size: 15px;
+}

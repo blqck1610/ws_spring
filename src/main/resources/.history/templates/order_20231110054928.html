@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" th:href="@{~/css/styles.css}">
+<link rel="stylesheet" th:href="@{~/css/cart.css}">
+<link rel="stylesheet"
+	th:href="@{~/css/themify-icons/themify-icons.css}">
+<title>cart</title>
+</head>
+
+<body>
+	
+
+	<div class="wrapper ">
+		<div class="heafer-container row">
+			<div class="row header-logo">
+				<div class="logo col">
+					<a th:href="@{~/home}"> <img width="150px"
+						th:src="@{~/images/logo/logostore.png}" alt=""
+						class="logo-store ml-60">
+					</a>
+				</div>
+				<h1 class="cart-title">Thanh Toán</h1>
+			</div>
+			<div class="row header-search ">
+				<div class="search-header">
+					<input type="text" class="header-input-search input"
+						placeholder="tìm kiếm sản phẩm"><i class="ti-search icon"></i>
+
+				</div>
+
+			</div>
+
+		</div>
+		<div class="contents-cart-wrapper">
+			<div class="content-cart row">
+				<div class="items-cart row">
+					
+
+
+						<div th:each="item : ${session.cart}" class="main-item row">
+							<div class="main-item-img">
+								<img
+									th:src="@{'~/images/product/' + ${item.product.img } +'/' + ${item.product.img } + '_1.jpg'}" alt
+									alt="">
+							</div>
+							<a href="" class="main-item-text"> <span class="brand-name" th:text="${item.product.brand.name}"></span>
+								<span class="name" th:text="%{item.product.name}"></span>
+							</a>
+							
+								<div class="price f-13" th:if="${item.product.sales == null || item.product.sales.salesValue == 0}">
+									<span class="" th:text="'$' + ${item.product.price}"></span>
+								</div>
+							
+							
+								<div class="price f-13" th:if="${item.product.sales != null && item.product.sales.salesValue == 0}">
+									<span class="">$${item.key.price - item.key.price * item.key.saleValue/100 } </span> <span class="old-price">$${item.key.price }</span>
+								</div>
+							</c:if>
+							<div class="quantity">
+								<a href="process?num=-1&idProduct=${item.key.idProduct }">-</a>
+								<input readonly type="number" value="${item.value }">
+								<a href="process?num=1&idProduct=${item.key.idProduct }">+</a>
+							</div>
+							<a href="process?process=del&idProduct=${item.key.idProduct }">xóa</a>
+						</div>
+
+					</c:forEach>
+
+				</div>
+				<div class="checkout-slider">
+					<div class="checkout-wrap">
+						<span class="title">Summary</span>
+						<div class="hr"></div>
+						<div class="row mt-8">
+							<span>${cart.items.size } tiem</span> <span>$${cart.totalPrice
+								}</span>
+						</div>
+						<div class="voucher row">
+							<span>voucher</span> <input type="text">
+							<button>Apply</button>
+
+						</div>
+						<div class="row">
+							<span>tax</span> <span>10%</span>
+						</div>
+						<div class="hr"></div>
+						<div class="total-price row mt-8">
+							<span class="total-price">total price</span> <span class="price">$${cart.totalPrice
+								+ cart.totalPrice * 10 / 100 }</span>
+						</div>
+						<a href="done" class="button">Check Out</a>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</body>
+
+</html>

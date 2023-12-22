@@ -1,0 +1,18 @@
+@charset "ISO-8859-1";
+
+* {
+    box-sizing: border-box
+}
+
+
+.invalid-input {
+    border: 2px solid rgb(255, 156, 16) !important;
+}
+
+.error-message {
+    display: ;
+    background-color: red;
+    color: aliceblue;
+    /* padding: 4px;*/
+    padding: 4px 0 8px;
+}
